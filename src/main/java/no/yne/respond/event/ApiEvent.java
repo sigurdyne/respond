@@ -5,6 +5,7 @@ import lombok.Getter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.Instant;
 import java.util.List;
 
 @Builder
@@ -46,6 +47,7 @@ public class ApiEvent {
 
     private final String title;
     private final String description;
+    private final Instant startTime;
 
     // Participants map user information to the event
     private final List<Participant> participants;
@@ -57,10 +59,12 @@ public class ApiEvent {
     public ApiEvent(
             @JsonProperty("title") String title,
             @JsonProperty("description") String description,
+            @JsonProperty("startTime") Instant startTime,
             @JsonProperty("participants") List<Participant> participants,
             @JsonProperty("responses") List<Response> responses) {
         this.title = title;
         this.description = description;
+        this.startTime = startTime;
         this.participants = participants;
         this.responses = responses;
     }

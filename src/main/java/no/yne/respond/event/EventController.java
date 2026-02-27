@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +43,7 @@ public class EventController {
         Event event = new Event();
         event.setTitle(request.getTitle());
         event.setDescription(request.getDescription());
+        event.setStartTime(request.getStartTime());
         eventRepository.save(event);
 
         // Save participants
@@ -89,8 +91,14 @@ public class EventController {
         return ApiEvent.builder()
                 .title(event.getTitle())
                 .description(event.getDescription())
+                .startTime(event.getStartTime())
                 .participants(savedParticipants)
                 .responses(savedResponses)
                 .build();
+    }
+
+    @GetMapping(value = "/upcoming", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Event> fetchUpcomingEvents() {
+        return eventRepository.findTop20ByStartTimeAfterOrderByStartTimeAsc(Instant.now());
     }
 }
