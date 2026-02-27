@@ -29,6 +29,9 @@ public class Event {
 
     private String description;
 
+    @Column(name = "start_time", nullable = false)
+    private Instant startTime;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 }
